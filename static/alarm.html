@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Alarmanlage</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" type="text/css" href="static/lib/jquery.mobile/jquery.mobile-1.4.5.css" />
+		<link rel="stylesheet" type="text/css" href="static/style.css" />
+		<script src="static/lib/jquery-1.11.3.min.js" type="text/javascript"></script>
+	    <script src="static/lib/jquery.mobile/jquery.mobile-1.4.5.min.js" type="text/javascript"></script>
+		</style>
+	</head>
+<body>
+    <div data-role="page" id="alarm" data-add-back-btn="true">
+        <div data-role="header">
+			<a href="/" data-transition="slide" data-direction="reverse">Zurück</a><h1>Alarmanlage</h1>
+        </div>
+        <div data-role="content">
+            <div id="banner"/>
+        </div>
+		
+		<div class="ui-field-contain">
+			<div class="ui-grid-a">
+				<div class="ui-block-a"><div class="ui-body" style="height:40px">
+					<label for="id_switch">An-/Ausschalten</label>
+				</div></div>
+				<div class="ui-block-b"><div class="ui-body" style="height:40px">
+					<select id="id_switch" data-role="flipswitch">
+						<option value="off">Off</option>
+						<option value="on">On</option>
+					</select>
+				</div></div>
+			</div>
+		</div>
+		<script type="text/javascript">
+		function function_alarm_switch(e) {
+			console.log(this.id + " has been changed! " + this.value);
+			if ($("#id_switch").val() == "on") {
+				jQuery.ajax({
+					type: "POST",
+					url: "alarm",
+					data: {'switch': "on"},
+					success: function (result) {
+						if (result.isOk == false) alert('error');
+						// ALARM ON
+					},
+					cache: false,
+					async: true
+				});
+			} else {
+				jQuery.ajax({
+					type: "POST",
+					url: "alarm",
+					data: {'switch': "off"},
+					success: function (result) {
+						if (result.isOk == false) alert('error');
+						// ALARM OFF
+					},
+					cache: false,
+					async: true
+				});
+			}
+		}
+		</script>
+
+		<script>
+		// when creating page: read status and set flipswitch accordingly.
+		$(document).on("pagecreate", "#alarm", function () {
+			jQuery.ajax({
+				type: "GET",
+				url: "state_alarm",
+				success: function (result) {
+					if (result.isOk == false) alert('error');
+					if (result.State == false) {
+						$("#id_switch")
+							.off("change") /* remove listener */
+							.val('off') /* update value */
+							.flipswitch('refresh')  /* re-enhance switch */
+							.on("change", function_alarm_switch); /* add listener */
+					} else {
+						$("#id_switch")
+							.off("change") /* remove listener */
+							.val('on') /* update value */
+							.flipswitch('refresh')  /* re-enhance switch */
+							.on("change", function_alarm_switch); /* add listener */
+					}
+				},
+				cache: false,
+				async: true
+			});
+		  });
+		</script>
+
+    </div>
+</body>
+</html>

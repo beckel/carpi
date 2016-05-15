@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Unser Willi-Bus</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" type="text/css" href="static/lib/jquery.mobile/jquery.mobile-1.4.5.css" />
+		<script src="static/lib/jquery-1.11.3.min.js" type="text/javascript"></script>
+	    <script src="static/lib/jquery.mobile/jquery.mobile-1.4.5.min.js" type="text/javascript"></script>
+	</head>
+
+	<body>
+		<div data-role="page" id="home">
+		    <div data-role="header">
+		        <h1>Unser Willi-Bus!</h1>
+		    </div>
+		    <div data-role="content">
+				
+	                <img src="static/images/pic_small.jpg" alt="image" style="width: 100%; margin: 0px"/>
+				
+		        <div id="banner">
+		            <h2>Herzlich Willkommen!</h2>
+		        </div>
+		        <ul data-role="listview" data-inset="true">
+		            <li><a href="./camera" data-transition="slide">Kamera</a></li>
+		            <li><a href="./room_climate" data-transition="slide">Raumklima</a></li>
+		            <li><a href="./alarm" data-transition="slide">Alarmanlage</a></li>
+		            <li><a href="http://192.168.0.1:6680/mobile/" data-transition="slide">Musik</a></li>
+		        </ul>
+				
+				<ul data-role="listview" data-inset="true">
+		            <li><a href="./settings">Einstellungen</a></li>
+				</ul>
+
+				<ul data-role="listview" data-inset="true">
+		            <li><a href="./shutdown">Herunterfahren</a></li>
+				</ul>
+
+				<!-- <ul data-role="listview" data-inset="true">
+		            <li><a href="./sensor_view" data-transition="slide">Sensoren (Test)</a></li>
+				</ul> -->
+
+		    </div>
+		</div>
+		
+		
+	</body>
+</html>
+

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Settings</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" type="text/css" href="static/lib/jquery.mobile/jquery.mobile-1.4.5.css" />
+		<link rel="stylesheet" type="text/css" href="static/style.css" />
+		<script src="static/lib/jquery-1.11.3.min.js" type="text/javascript"></script>
+	    <script src="static/lib/jquery.mobile/jquery.mobile-1.4.5.min.js" type="text/javascript"></script>
+	</head>
+<body>
+	
+    <div data-role="page" id="settings" data-add-back-btn="true">
+        <div data-role="header">
+            <a href="/" data-transition="slide" data-direction="reverse">Zurück</a><h1>Einstellungen</h1>
+        </div>
+        <div data-role="content">
+			<h2>Internet</h2>
+	            <div class="ui-field-contain">
+					<div class="ui-grid-a">
+						<div class="ui-block-a"><div class="ui-body" style="height:40px">
+							<label for="id_switch">Connect</label>
+						</div></div>
+						<div class="ui-block-b"><div class="ui-body" style="height:40px">
+							<select id="id_switch" data-role="flipswitch">
+								<option value="off">Off</option>
+								<option value="on">On</option>
+							</select>
+						</div></div>
+						<div class="ui-block-a"><div class="ui-body" style="height:40px">
+							<label for="id_switch">Status</label>
+						</div></div>
+						<div class="ui-block-b"><div class="ui-body" style="height:40px">
+							<image src="static/images/online.png" width="0px" id="id_img_online" />
+						</div></div>
+					</div>
+				</div>
+			</h1>
+		</div>
+
+		<script type="text/javascript">
+		function function_internet_switch(e) {
+			console.log(this.id + " has been changed! " + this.value);
+			if ($("#id_switch").val() == "on") {
+				jQuery.ajax({
+					type: "POST",
+					url: "internet",
+					data: {'switch': "on"},
+					success: function (result) {
+						if (result.isOk == false) alert('error');
+						// Internet ON
+					},
+					cache: false,
+					async: true
+				});
+			} else {
+				jQuery.ajax({
+					type: "POST",
+					url: "internet",
+					data: {'switch': "off"},
+					success: function (result) {
+						if (result.isOk == false) alert('error');
+						// ALARM OFF
+					},
+					cache: false,
+					async: true
+				});
+			}
+		}
+		</script>
+
+		<script>
+		// when creating page: read status and set flipswitch accordingly.
+		$(document).on("pagecreate", "#settings", function () {
+			jQuery.ajax({
+				type: "GET",
+				url: "state_internet",
+				success: function (result) {
+					if (result.isOk == false) alert('error');
+					if (result.State == false) {
+						$("#id_switch")
+							.off("change") /* remove listener */
+							.val('off') /* update value */
+							.flipswitch('refresh')  /* re-enhance switch */
+							.on("change", function_internet_switch); /* add listener */
+					} else {
+						$("#id_switch")
+							.off("change") /* remove listener */
+							.val('on') /* update value */
+							.flipswitch('refresh')  /* re-enhance switch */
+							.on("change", function_internet_switch); /* add listener */
+					}
+				},
+				cache: false,
+				async: true
+			});
+		  });
+		</script>
+		  
+		<script>
+		  function test_connection() {
+			console.log("Sending query")
+			// check if system is online
+			jQuery.ajax({
+				type: "GET",
+				url: "state_internet_ping",
+				success: function (result) {
+					console.log("Retrieved result")
+					if (result.isOk == false) alert('error');
+					if (result.State == false) {
+						$("#id_img_online").attr("src","static/images/offline.png");
+						$("#id_img_online").attr("width","45px");
+					} else {
+						$("#id_img_online").attr("src","static/images/online.png");
+						$("#id_img_online").attr("width","45px");
+					}
+				},
+				cache: false,
+				async: true
+			});
+		  }
+	  
+		$(document).ready(function() {
+			test_connection();
+			// System check-alive (every 5 seconds):
+			// If online setting is true: check connection
+			// If online setting is false: set image to "Offline"
+			var ref=setInterval(test_connection, 5000);
+		});
+		</script>
+		
+    </div>
+</body>
+</html>

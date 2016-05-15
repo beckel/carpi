@@ -1,0 +1,12 @@
+.ui-field-contain label {
+	padding: 0px 0px 0px 0px;
+	height: 40px;
+	float: right;
+	line-height:40px;
+	font-size: 20px;
+	font-weight: bold;
+}
+.ui-field-contain .ui-flipswitch {
+	margin: 5px 0px 0px 0px;
+	float: left;
+}
