@@ -27,7 +27,7 @@ Currently under construction:
 * Status monitor for second car battery
 * Alarm system based on accelerometer sensor
 
-See more information here (link to T4 forum).
+See more information here ([link to T4 forum](http://www.t4forum.de/wbb3/board19-technik-bereich/board120-umbauten-tuning/board2-car-hifi-multimedia-und-navigation/232073-carpi-mein-pc-f%C3%BCr-den-bully-zwischenstand/)).
 
 
 
